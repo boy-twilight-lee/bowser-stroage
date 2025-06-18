@@ -1,4 +1,4 @@
-import { isUndefined, isObject, isNull } from './utils/is';
+import { isUndefined, isObject } from './utils/is';
 import { getTimestap } from './utils/fn';
 
 export class ClientStorage {
