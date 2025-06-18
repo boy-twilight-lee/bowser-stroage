@@ -10,10 +10,10 @@ export class ClientStorage {
 
   // 获取值
   get<T>(key: string) {
-    if (!this.has(key)) {
-      return undefined as T;
+    let value = this.storage.getItem(key) as any;
+    if (isUndefined(value)) {
+      return;
     }
-    let value: any = this.storage.getItem(key);
     // 解析value
     try {
       value = JSON.parse(value);
