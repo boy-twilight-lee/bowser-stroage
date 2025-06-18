@@ -61,14 +61,4 @@ export class ClientStorage {
   clear() {
     this.storage.clear();
   }
-
-  // 获取大小
-  getSize(): string {
-    let size = 0;
-    for (const key in this.storage) {
-      if (key === 'length') continue;
-      size += this.storage[key].length;
-    }
-    return (size / 1024).toFixed(2) + 'KB';
-  }
 }
