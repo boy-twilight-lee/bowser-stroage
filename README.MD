@@ -1,6 +1,6 @@
-# ClientStorage - 浏览器存储二次封装库
+# BowserStorage - 浏览器存储二次封装库
 
-`ClientStorage` 是一个轻量级的 JavaScript 库，用于对浏览器本地存储（`localStorage`）和会话存储（`sessionStorage`）进行二次封装，提供更便捷的数据存取方式，并支持**自动过期时间**管理。
+`BowserStorage` 是一个轻量级的 JavaScript 库，用于对浏览器本地存储（`localStorage`）和会话存储（`sessionStorage`）进行二次封装，提供更便捷的数据存取方式，并支持**自动过期时间**管理。
 
 ## 功能特性
 
@@ -23,13 +23,13 @@ yarn add boswer-storage
 ### 1. 初始化
 
 ```ts
-import { ClientStorage } from 'boswer-storage';
+import { BowserStorage } from 'boswer-storage';
 
 // 使用 localStorage
-const ls = new ClientStorage('local');
+const ls = new BowserStorage('local');
 
 // 使用 sessionStorage
-const ss = new ClientStorage('session');
+const ss = new BowserStorage('session');
 ```
 
 ### 2. 存储数据
@@ -72,7 +72,7 @@ ls.clear(); // 清空所有数据
 
 ## API 文档
 
-### `new ClientStorage(type: 'local' | 'session')`
+### `new BowserStorage(type: 'local' | 'session')`
 
 - `type`：指定存储类型，可选 `'local'`（`localStorage`）或 `'session'`（`sessionStorage`）。
 
@@ -112,7 +112,7 @@ ls.clear(); // 清空所有数据
 ## 示例
 
 ```ts
-const storage = new ClientStorage('local');
+const storage = new BowserStorage('local');
 
 // 存储用户信息，30分钟后过期
 storage.set('user', { id: 1, name: 'Bob' }, 30 * 60 * 1000);

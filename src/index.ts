@@ -1,6 +1,6 @@
 import { isUndefined, isObject } from './utils/is';
 
-export class ClientStorage {
+export class BowserStorage {
   private storage: Storage;
 
   constructor(type: 'local' | 'session') {
