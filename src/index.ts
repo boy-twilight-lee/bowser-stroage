@@ -8,7 +8,7 @@ export class BowserStorage {
   }
 
   // 获取值
-  get<T>(key: string) {
+  get<T>(key: string): T | undefined {
     let value = this.storage.getItem(key) as any;
     if (isUndefined(value)) {
       return;
