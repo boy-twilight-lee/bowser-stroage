@@ -1,5 +1,4 @@
 import { isUndefined, isObject } from './utils/is';
-import { getTimestap } from './utils/fn';
 
 export class ClientStorage {
   private storage: Storage;
@@ -22,7 +21,7 @@ export class ClientStorage {
       // 判断格式
       if (isObject(value) && (data || expire)) {
         // 获取当前的时间
-        const curTime = getTimestap();
+        const curTime = new Date().getTime();
         // 是否过期
         const isExpired = expire != -1 && curTime >= expire;
         // 删除过期的key
@@ -40,7 +39,7 @@ export class ClientStorage {
       JSON.stringify({
         // 判断是否需要加密
         data: value,
-        expire: maxAge != -1 ? getTimestap() + maxAge : maxAge,
+        expire: maxAge != -1 ? new Date().getTime() + maxAge : maxAge,
       }),
     );
   }

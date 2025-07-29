@@ -13,9 +13,9 @@
 ## 安装
 
 ```bash
-npm install client-storage-util
+npm install boswer-storage
 # 或
-yarn add client-storage-util
+yarn add boswer-storage
 ```
 
 ## 使用方法
@@ -23,7 +23,7 @@ yarn add client-storage-util
 ### 1. 初始化
 
 ```ts
-import { ClientStorage } from 'client-storage-util';
+import { ClientStorage } from 'boswer-storage';
 
 // 使用 localStorage
 const ls = new ClientStorage('local');
