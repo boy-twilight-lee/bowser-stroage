@@ -1,5 +1,5 @@
 {
-  "name": "clinet-storage",
+  "name": "web-storage",
   "version": "1.0.0",
   "description": "对本地储存的二次封装，支持过期",
   "main": "dist/index.js",
