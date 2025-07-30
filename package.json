@@ -30,10 +30,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://gitee.com/chart-twilight/client-storage"
+    "url": "https://github.com/boy-twilight-lee/bowser-stroage"
   },
   "bugs": {
-    "url": "https://gitee.com/chart-twilight/client-storage/issues"
+    "url": "https://github.com/boy-twilight-lee/bowser-stroage/issues"
   },
-  "homepage": "https://gitee.com/chart-twilight/client-storage/blob/master/README.md"
+  "homepage": "https://github.com/boy-twilight-lee/bowser-stroage"
 }
