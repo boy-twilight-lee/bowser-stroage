@@ -1,4 +1,6 @@
-import { isUndefined, isObject } from './utils/is';
+import { isUndefined } from './utils/is';
+
+const DATA_FLAG = 'bowser-storage';
 
 export class BowserStorage {
   private storage: Storage;
@@ -9,37 +11,35 @@ export class BowserStorage {
 
   // 获取值
   get<T>(key: string): T | undefined {
-    let value = this.storage.getItem(key) as any;
-    if (isUndefined(value)) {
+    if (!this.has(key)) {
       return;
     }
-    // 解析value
+    const json = this.storage.getItem(key)!;
     try {
-      value = JSON.parse(value);
+      const value = JSON.parse(json);
       // 解析数据
-      const { data, expire } = value;
-      // 判断格式
-      if (isObject(value) && (data || expire)) {
-        // 获取当前的时间
-        const curTime = new Date().getTime();
-        // 是否过期
-        const isExpired = expire != -1 && curTime >= expire;
-        // 删除过期的key
-        value = isExpired ? this.remove(key) : data;
+      const { data, expire, flag } = value;
+      // 如果不是
+      if (flag != DATA_FLAG) {
+        return value;
       }
-    } catch {}
-    return value as T;
+      // 是否过期
+      const isExpired = expire >= 0 && new Date().getTime() >= expire;
+      // 删除过期的key
+      return isExpired ? this.remove(key) : data;
+    } catch {
+      return json as unknown as T;
+    }
   }
 
   // 存储值
   set<T>(key: string, value: T, maxAge: number = -1) {
-    // 存储值
     this.storage.setItem(
       key,
       JSON.stringify({
-        // 判断是否需要加密
         data: value,
-        expire: maxAge != -1 ? new Date().getTime() + maxAge : maxAge,
+        expire: (maxAge >= 0 ? new Date().getTime() : 0) + maxAge,
+        flag: DATA_FLAG,
       }),
     );
   }
@@ -59,5 +59,15 @@ export class BowserStorage {
   // 清空储存
   clear() {
     this.storage.clear();
+  }
+
+  // length
+  length() {
+    return this.storage.length;
+  }
+
+  // key
+  key(index: number) {
+    return this.storage.key(index);
   }
 }
