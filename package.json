@@ -1,6 +1,6 @@
 {
   "name": "bowser-storage",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "对本地储存的二次封装，支持过期",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

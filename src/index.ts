@@ -25,7 +25,11 @@ export class BowserStorage {
       // 是否过期
       const isExpired = expire >= 0 && new Date().getTime() >= expire;
       // 删除过期的key
-      return isExpired ? this.remove(key) : data;
+      if (isExpired) {
+        this.remove(key);
+        return;
+      }
+      return data;
     } catch {
       return json as unknown as T;
     }
