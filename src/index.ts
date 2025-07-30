@@ -1,8 +1,8 @@
 import { isUndefined } from './utils/is';
 
-const DATA_FLAG = 'bowser-storage';
+const DATA_FLAG = 'Browser-storage';
 
-export class BowserStorage {
+export class BrowserStorage {
   private storage: Storage;
 
   constructor(type: 'local' | 'session') {

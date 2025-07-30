@@ -1,6 +1,6 @@
-# bowser-storage
+# browser-storage
 
-`bowser-storage` 是一个用于浏览器 `localStorage` 和 `sessionStorage` 的高级封装库。它在原生 `Storage` API 的基础上，提供了类型支持、数据过期功能以及更便捷的 JSON 数据处理。
+`browser-storage` 是一个用于浏览器 `localStorage` 和 `sessionStorage` 的高级封装库。它在原生 `Storage` API 的基础上，提供了类型支持、数据过期功能以及更便捷的 JSON 数据处理。
 
 ## 特性
 
@@ -15,17 +15,17 @@
 ### 安装
 
 ```bash
-npm install bowser-storage
+npm install browser-storage
 ```
 
 ### 引入和使用
 
 ```typescript
-import { BowserStorage } from 'bowser-storage';
+import { BrowserStorage } from 'browser-storage';
 
 // 实例化，'local' 代表 localStorage，'session' 代表 sessionStorage
-const myLocalStorage = new BowserStorage('local');
-const mySessionStorage = new BowserStorage('session');
+const myLocalStorage = new BrowserStorage('local');
+const mySessionStorage = new BrowserStorage('session');
 
 // 1. 存储数据
 myLocalStorage.set('user', { name: 'Alice', id: 1 });
@@ -59,9 +59,9 @@ console.log(myLocalStorage.length()); // 输出: 0
 
 ### 构造函数
 
-| 方法                      | 描述                            | 参数                                                           |
-| :------------------------ | :------------------------------ | :------------------------------------------------------------- |
-| `new BowserStorage(type)` | 创建一个 `BowserStorage` 实例。 | `type: 'local' \| 'session'` <br> 指定要使用的浏览器存储类型。 |
+| 方法                       | 描述                             | 参数                                                           |
+| :------------------------- | :------------------------------- | :------------------------------------------------------------- |
+| `new BrowserStorage(type)` | 创建一个 `BrowserStorage` 实例。 | `type: 'local' \| 'session'` <br> 指定要使用的浏览器存储类型。 |
 
 ### 实例方法
 

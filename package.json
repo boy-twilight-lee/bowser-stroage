@@ -1,6 +1,6 @@
 {
-  "name": "bowser-storage",
-  "version": "1.0.2",
+  "name": "browser-storage",
+  "version": "1.0.1",
   "description": "对本地储存的二次封装，支持过期",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -30,10 +30,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/boy-twilight-lee/bowser-stroage"
+    "url": "https://github.com/boy-twilight-lee/browser-stroage"
   },
   "bugs": {
-    "url": "https://github.com/boy-twilight-lee/bowser-stroage/issues"
+    "url": "https://github.com/boy-twilight-lee/browser-stroage/issues"
   },
-  "homepage": "https://github.com/boy-twilight-lee/bowser-stroage"
+  "homepage": "https://github.com/boy-twilight-lee/browser-stroage"
 }
