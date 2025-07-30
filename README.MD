@@ -15,13 +15,13 @@
 ### 安装
 
 ```bash
-npm install browser-storage
+npm install browser-storage-pro
 ```
 
 ### 引入和使用
 
 ```typescript
-import { BrowserStorage } from 'browser-storage';
+import { BrowserStorage } from 'browser-storage-pro';
 
 // 实例化，'local' 代表 localStorage，'session' 代表 sessionStorage
 const myLocalStorage = new BrowserStorage('local');
