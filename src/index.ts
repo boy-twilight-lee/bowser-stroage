@@ -8,7 +8,6 @@ export class BowserStorage {
   constructor(type: 'local' | 'session') {
     this.storage = type === 'local' ? localStorage : sessionStorage;
   }
-
   // 获取值
   get<T>(key: string): T | undefined {
     if (!this.has(key)) {
@@ -31,7 +30,6 @@ export class BowserStorage {
       return json as unknown as T;
     }
   }
-
   // 存储值
   set<T>(key: string, value: T, maxAge: number = -1) {
     this.storage.setItem(
@@ -43,29 +41,24 @@ export class BowserStorage {
       }),
     );
   }
-
   // 判断值是否存在
   has(key: string) {
     return !isUndefined(this.storage.getItem(key));
   }
-
   // 删除值
   remove(key: string) {
     if (this.has(key)) {
       this.storage.removeItem(key);
     }
   }
-
   // 清空储存
   clear() {
     this.storage.clear();
   }
-
   // length
   length() {
     return this.storage.length;
   }
-
   // key
   key(index: number) {
     return this.storage.key(index);

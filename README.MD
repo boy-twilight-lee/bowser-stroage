@@ -1,127 +1,76 @@
-# BowserStorage - 浏览器存储二次封装库
+# bowser-storage
 
-`BowserStorage` 是一个轻量级的 JavaScript 库，用于对浏览器本地存储（`localStorage`）和会话存储（`sessionStorage`）进行二次封装，提供更便捷的数据存取方式，并支持**自动过期时间**管理。
+`bowser-storage` 是一个用于浏览器 `localStorage` 和 `sessionStorage` 的高级封装库。它在原生 `Storage` API 的基础上，提供了类型支持、数据过期功能以及更便捷的 JSON 数据处理。
 
-## 功能特性
+## 特性
 
-✅ **支持 `localStorage` 和 `sessionStorage`**  
-✅ **自动 JSON 序列化/反序列化**  
-✅ **支持数据过期时间（TTL）**  
-✅ **类型安全（TypeScript 支持）**  
-✅ **简洁易用的 API**
+- **类型安全**: 使用 TypeScript 泛型来支持任意类型的数据存储与检索。
+- **自动 JSON 化**: 自动将存入的数据序列化为 JSON 字符串，并在取出时解析还原。
+- **数据有效期**: 可以为每个存储项设置一个有效期（maxAge），过期后数据将被自动清除。
+- **统一的 API**: 为 `localStorage` 和 `sessionStorage` 提供了完全一致的操作方法。
+- **错误处理**: 内置了 JSON 解析的错误处理，避免因存储了非标准 JSON 格式字符串而导致的程序崩溃。
 
-## 安装
+## 快速上手
+
+### 安装
 
 ```bash
-npm install boswer-storage
-# 或
-yarn add boswer-storage
+npm install bowser-storage
 ```
 
-## 使用方法
+### 引入和使用
 
-### 1. 初始化
+```typescript
+import { BowserStorage } from 'bowser-storage';
 
-```ts
-import { BowserStorage } from 'boswer-storage';
+// 实例化，'local' 代表 localStorage，'session' 代表 sessionStorage
+const myLocalStorage = new BowserStorage('local');
+const mySessionStorage = new BowserStorage('session');
 
-// 使用 localStorage
-const ls = new BowserStorage('local');
+// 1. 存储数据
+myLocalStorage.set('user', { name: 'Alice', id: 1 });
+myLocalStorage.set('token', 'some-secret-token', 3600 * 1000); // 设置1小时后过期
 
-// 使用 sessionStorage
-const ss = new BowserStorage('session');
+// 2. 获取数据
+const user = myLocalStorage.get<{ name: string; id: number }>('user');
+console.log(user); // 输出: { name: 'Alice', id: 1 }
+
+const token = myLocalStorage.get<string>('token');
+console.log(token); // 输出: 'some-secret-token' (如果未过期)
+
+// 1小时后再次获取 token
+// const expiredToken = myLocalStorage.get<string>('token');
+// console.log(expiredToken); // 输出: undefined，并且该键值对已被从 localStorage 中移除
+
+// 3. 检查是否存在
+console.log(myLocalStorage.has('user')); // 输出: true
+console.log(myLocalStorage.has('non-existent-key')); // 输出: false
+
+// 4. 移除数据
+myLocalStorage.remove('user');
+console.log(myLocalStorage.has('user')); // 输出: false
+
+// 5. 清空所有数据
+myLocalStorage.clear();
+console.log(myLocalStorage.length()); // 输出: 0
 ```
 
-### 2. 存储数据
+## API 详解
 
-```ts
-// 存储数据（默认永不过期）
-ls.set('username', 'Alice');
+### 构造函数
 
-// 存储数据，10秒后过期
-ls.set('token', 'abc123', 10000); // 单位：毫秒
-```
+| 方法                      | 描述                            | 参数                                                           |
+| :------------------------ | :------------------------------ | :------------------------------------------------------------- |
+| `new BowserStorage(type)` | 创建一个 `BowserStorage` 实例。 | `type: 'local' \| 'session'` <br> 指定要使用的浏览器存储类型。 |
 
-### 3. 获取数据
+### 实例方法
 
-```ts
-// 获取数据（自动解析 JSON）
-const username = ls.get<string>('username'); // 'Alice'
-
-// 如果数据过期，返回 undefined
-const expiredToken = ls.get<string>('token'); // undefined
-```
-
-### 4. 检查数据是否存在
-
-```ts
-const hasUser = ls.has('username'); // true
-```
-
-### 5. 删除数据
-
-```ts
-ls.remove('username');
-```
-
-### 6. 清空存储
-
-```ts
-ls.clear(); // 清空所有数据
-```
-
-## API 文档
-
-### `new BowserStorage(type: 'local' | 'session')`
-
-- `type`：指定存储类型，可选 `'local'`（`localStorage`）或 `'session'`（`sessionStorage`）。
-
-### `get<T>(key: string): T | undefined`
-
-- 获取存储的数据，自动解析 JSON 并检查过期时间。
-- 如果数据不存在或已过期，返回 `undefined`。
-
-### `set<T>(key: string, value: T, maxAge: number = -1): void`
-
-- 存储数据，自动进行 JSON 序列化。
-- `maxAge`：数据有效期（毫秒），默认 `-1`（永不过期）。
-
-### `has(key: string): boolean`
-
-- 检查指定 `key` 是否存在。
-
-### `remove(key: string): void`
-
-- 删除指定 `key` 的数据。
-
-### `clear(): void`
-
-- 清空所有存储数据。
-
-## 注意事项
-
-⚠ **数据格式**：
-
-- 存储的数据会被自动转换为 JSON 字符串，并包含 `data` 和 `expire` 字段。
-- 如果手动修改了存储的数据结构，可能导致解析失败。
-
-⚠ **浏览器兼容性**：
-
-- 依赖 `localStorage` 和 `sessionStorage`，不支持 IE 8 及以下版本。
-
-## 示例
-
-```ts
-const storage = new BowserStorage('local');
-
-// 存储用户信息，30分钟后过期
-storage.set('user', { id: 1, name: 'Bob' }, 30 * 60 * 1000);
-
-// 获取用户信息
-const user = storage.get<{ id: number; name: string }>('user');
-console.log(user); // { id: 1, name: 'Bob' }（未过期时）
-```
-
-## License
-
-MIT
+| 方法                              | 描述                                                                          | 参数                                                                                                                                                      | 返回值                                                   |
+| :-------------------------------- | :---------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------- |
+| **`get<T>(key)`**                 | 获取指定 `key` 对应的值。如果数据已过期，会自动移除该数据并返回 `undefined`。 | `key: string` <br> 要获取的数据的键名。                                                                                                                   | `T \| undefined` <br> 返回解析后的数据或 `undefined`。   |
+| **`set<T>(key, value, maxAge?)`** | 存储一个键值对，并可以设置其有效期。                                          | `key: string` <br> 要设置的键名。<br><br> `value: T` <br> 要存储的值。<br><br> `maxAge?: number` <br> (可选) 有效期，单位为毫秒。默认为 `-1` (永不过期)。 | `void`                                                   |
+| **`has(key)`**                    | 检查指定的 `key` 是否存在于存储中。                                           | `key: string` <br> 要检查的键名。                                                                                                                         | `boolean` <br> 如果存在则返回 `true`，否则返回 `false`。 |
+| **`remove(key)`**                 | 从存储中移除指定的键值对。                                                    | `key: string` <br> 要移除的键名。                                                                                                                         | `void`                                                   |
+| **`clear()`**                     | 清空当前存储类型下的所有键值对。                                              | (无)                                                                                                                                                      | `void`                                                   |
+| **`length()`**                    | 获取当前存储中的键值对数量。                                                  | (无)                                                                                                                                                      | `number` <br> 键值对的数量。                             |
+| **`key(index)`**                  | 根据索引获取键名（原生方法）。                                                | `index: number` <br> 要获取的键名的索引。                                                                                                                 | `string \| null` <br> 对应的键名或 `null`。              |
